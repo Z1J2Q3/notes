@@ -1,0 +1,169 @@
+P02 图像模糊处理
+
+题目大意：
+求除了图像四周的各像素点上下左右相邻四个像素点原灰度值的平均(舍入到最接近的整数)。
+
+题目思路：
+输入a[101][101], 输出b[101][101]，
+然后从a[1][1]到a[n-2][n-2]，找出a[i][j]，a[i+1][j]，a[i-1][j]，a[i][j+1]和a[i][j-1]的平均值，即除以5.0，
+答案加上0.5进行四舍五入，
+把b[i][j]更新为答案：
+b[i][j] = (a[i][j] + a[i+1][j] + a[i-1][j] + a[i][j+1] + a[i][j-1])/5.0 + 0.5
+
+程序实现：
+
+#include<bits/stdc++.h>
+using namespace std;
+int n, m, a[101][101], b[101][101];
+int main()
+{
+    cin >> n >> m;
+    for(int i = 0; i<n; i++)
+    {
+        for(int j = 0; j<m; j++)
+        {
+            cin >> a[i][j];
+            b[i][j] = a[i][j];
+        }
+    }
+    for(int i = 1; i<n-1; i++)
+    {
+        for(int j = 1; j<m-1; j++)
+        {
+            b[i][j] = (a[i][j] + a[i+1][j] + a[i-1][j] + a[i][j+1] + a[i][j-1])/5.0 + 0.5;
+        }
+    }
+    for(int i = 0; i<n; i++)
+    {
+        for(int j = 0; j<m; j++)
+        {
+            if(j>0)
+                cout << " ";
+            cout << b[i][j];
+        }
+        cout << endl;
+    }
+    return 0;
+}
+
+
+
+
+
+P03 过滤空格
+
+题目大意：
+删除句子中多余的空格，只留下一个空格。
+
+题目思路：
+输入字符串s[201]，
+int l = s的长度，
+如果s[i]不是空格，输出s[i]，flag = false，
+如果s[i]是空格，当flag = false，表示没有输出过空格，输出空格，flag = true。
+
+程序实现：
+
+#include<bits/stdc++.h>
+using namespace std;
+char s[201]；
+bool flag = false;
+int main()
+{
+    cin.getline(s, 201);
+    int l = strlen(s);
+    for(int i = 0; i<l; i++)
+    {
+        if(s[i] != ' ')
+        {
+            cout << s[i];
+            flag = false;
+        }
+        else if(s[i] == ' ' && flag == false)
+        {
+            flag = true;
+            cout << " ";
+        }
+    }
+    return 0;
+}
+
+
+
+
+
+P04 最长单词
+
+题目大意：
+输出第一个最长的单词，不包括字符。
+
+题目思路：
+输入字符串s，
+把s输入到stringstream ss里，
+先判断字符串末尾有没有非字母字符：
+if(s[s.length()-1] == '.')
+	s = s.substr(0, s.length()-1);
+然后判断当前单词的长度s.length()是否大于此前最长单词的长度ans.length(),
+如果是，ans = s，
+循环结束后，输出字符串ans。
+
+程序实现：
+
+#include <bits/stdc++.h>
+using namespace std;
+string s, ans;
+int main()
+{
+    getline(cin, s);
+    stringstream ss(s);
+    while(ss >> s)
+    {
+        if(s[s.length()-1] == '.')
+            s = s.substr(0, s.length()-1);
+        if(s.length() > ans.length())
+            ans = s;
+    }
+    cout << ans << endl;
+    return 0;
+}
+
+
+
+
+
+P05 最高分数的学生姓名
+
+题目大意：
+输入学生的人数，然后再输入每位学生的分数和姓名，求获得最高分数的学生的姓名。
+
+题目思路：
+建一个结构体p，包括int n和char s[21]，n表示成绩，s表示姓名，
+开一个p类型的数组a[110]，
+设定比较规则cmp，返回a.n > b.n，
+sort(a+1, a+1+n, cmp)，
+输出数组中a[1].s。
+
+程序实现：
+
+#include <bits/stdc++.h>
+using namespace std;
+struct p
+{
+    int n;
+    char s[21];
+}a[110];
+int n;
+bool cmp(p a, p b)
+{
+    return a.n>b.n;
+}
+int main()
+{
+    cin >> n;
+    for(int i = 1; i<=n; i++)
+    {
+        cin >> a[i].n >> a[i].s;
+    }
+    sort(a+1, a+1+n, cmp);
+    cout << a[1].s << endl;
+    return 0;
+}
