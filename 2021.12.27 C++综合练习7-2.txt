@@ -1,0 +1,115 @@
+P06 验证子串
+
+题目大意：
+验证字符串s2是否包括s1。
+
+题目思路：
+输入字符串s1和s2，
+若s1的长度大于s2的长度，return false，
+用strncmp函数对两个字符串进行比较，
+若strncmp(a+i, b, m) == 0，表示s1是s2的字串。
+
+
+程序实现：
+
+#include <bits/stdc++.h>
+using namespace std;
+char s1[201], s2[201];
+bool check(char a[], char b[]) {
+    int n = strlen(a), m = strlen(b);
+    if (m > n)
+        return false;
+    for (int i = 0; i+m-1 < n; i ++)
+        if (strncmp(a+i, b, m) == 0)
+            return true;
+    return false;
+}
+int main() {
+    cin >> s1 >> s2;
+    if (check(s2, s1))
+        printf("%s is substring of %s\n", s1, s2);
+    else if (check(s1, s2))
+        printf("%s is substring of %s\n", s2, s1);
+    else
+        puts("No substring");
+    return 0;
+}
+
+
+
+
+
+P07-1 转进制
+
+题目大意：
+把一个十进制数转换成M进制数。
+
+题目思路：
+若a == 0，输出0，
+当a>0，从后往前输出a%M，
+用char t(a%M)进行大于9的字母转换。
+
+程序实现：
+
+#include <bits/stdc++.h>
+using namespace std;
+char t(int a)
+{
+    if (a<10)
+        return '0' + a;
+    return 'A' + a - 10;
+}
+int a, m, M;
+char ans[100];
+int main()
+{
+    cin >> a >> M;
+    if(a == 0)
+    {
+        cout << 0 << endl;
+        return 0;
+    }
+    while(a>0)
+    {
+        ans[++m] = t(a%M);
+        a /= M;
+    }
+    for(int i = m; i>=1; i--)
+        cout << ans[i];
+    return 0;
+}
+
+
+
+
+
+P07-2 转进制
+
+题目思路：
+递归f(a)，倒着输出a%M，
+用char t(a%M)进行大于9的字母转换。
+
+程序实现：
+
+#include <bits/stdc++.h>
+using namespace std;
+char t(int a)
+{
+    if (a<10)
+        return '0' + a;
+    return 'A' + a - 10;
+}
+int a, m, M;
+void f(int a)
+{
+    if(a/M)
+    	f(a/M);
+    cout << t(a%M);
+}
+char ans[100];
+int main()
+{
+    cin >> a >> M;
+    f(a);
+    return 0;
+}
