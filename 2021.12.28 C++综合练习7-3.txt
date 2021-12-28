@@ -1,0 +1,147 @@
+P08 二进制分类
+
+题目大意：
+从a到b之间A类数和BB类数的个数。
+
+题目思路：
+开一个bool类型的check函数，
+只要a>0，a%2，
+如果余数是1，cnt1++，
+否则cnt0++，
+a/=2，
+返回cnt1 > cnt0，
+如果check(i) = true，ca++，
+否则cb++。
+
+程序实现：
+
+#include <bits/stdc++.h>
+using namespace std;
+bool check(int a)
+{
+    int cnt1 = 0, cnt0 = 0;
+    while(a>0)
+    {
+        if(a%2 == 1)
+            cnt1++;
+        else
+            cnt0++;
+        a/=2;
+    }
+    return cnt1 > cnt0;
+}
+int a, b, ca, cb;
+int main()
+{
+    cin >> a >> b;
+    for(int i = a; i<=b; i++)
+    {
+        if(check(i))
+            ca++;
+        else
+            cb++;
+    }
+    cout << ca << " " << cb << endl;
+    return 0;
+}
+
+
+
+
+
+P09 大数比较
+
+题目大意：
+比较a和b的大小。
+
+题目思路：
+把大数a和b分别输入到两个字符数组里，
+用n和m分别代表a和b的长度，
+若n > m，输出>，
+若n < m，输出<，
+若n == m，int c = strcmp(a, b) 的结果，
+若c < 0，输出<，
+若c > 0，输出>，
+否则输出=。
+
+程序实现：
+
+#include <bits/stdc++.h>
+using namespace std;
+char a[1010], b[1010];
+int main()
+{
+    cin >> a >> b;
+    int n = strlen(a), m = strlen(b);
+    if(n>m)
+        cout << ">" << endl;
+    else if(n<m)
+        cout << "<" << endl;
+    else
+    {
+        int c = strcmp(a, b);
+        if(c<0)
+            cout << "<" << endl;
+        else if(c>0)
+            cout << ">" << endl;
+        else
+            cout << "=" << endl;
+    }
+    return 0;
+}
+
+
+
+
+
+P10 笨小猴
+
+题目大意：
+判断maxn-minn是否是质数。
+
+题目思路：
+cnt[s[i] - 'a']++，统计每个字母出现的次数，
+
+
+#include <bits/stdc++.h>
+using namespace std;
+char s[101];
+int maxn, minn, cnt[27], l;
+bool check(int n)
+{
+    if(n == 2)
+        return true;
+    if(n%2 == 0 || n<=1)
+        return false;
+    for(int i = 3; i*i<=n; i+=2)
+    {
+        if(n%i == 0)
+            return false;
+    }
+    return true;
+}
+int main()
+{
+    cin >> s;
+    l = strlen(s);
+    for(int i = 0; i<l; i++)
+    {
+        cnt[s[i] - 97]++;
+    }
+    sort(cnt, cnt+26);
+    for(int i = 0; i<26; i++)
+    {
+        if(cnt[i] != 0)
+        {
+            minn = cnt[i];
+            break;
+        }
+    }
+    maxn = cnt[25];
+    if(check(maxn-minn))
+        cout << "Lucky Word" <<endl;
+    else
+        cout << "No Answer" << endl;
+    cout << maxn-minn << endl;
+    return 0;
+}
